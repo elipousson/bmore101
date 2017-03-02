@@ -1,5 +1,6 @@
 ---
 title: "Getting Started: A Pre-Class Survey"
+date: 2017-03-02
 ---
 
 I'm interested in pre-class survey to assess how students feels about the actions they'll be asked to take on for the class. Possible questions include:
