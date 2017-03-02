@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Explore Baltimore Heritage 101: Resource Directory">
+    <meta name="author" content="Baltimore Heritage">
+    <title>Explore Baltimore Heritage 101</title>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://elipousson.github.io/bmore101/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="https://elipousson.github.io/bmore101/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://elipousson.github.io/bmore101/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://elipousson.github.io/bmore101/manifest.json">
+    <link rel="mask-icon" href="https://elipousson.github.io/bmore101/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- CSS/JS -->
+    <link rel="stylesheet" href="style.css">
+    <script src="https://use.fontawesome.com/805c1c57ab.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/tabletop.js"></script>
+    <script type="text/javascript" src="assets/js/sheetsee.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="wrapper">
+        <h1>Explore Baltimore Heritage 101 </h1>
+        <h3>Community-Based Teaching and Learning Resources</h3> <!-- TODO: Create a Google Form for submitting activities. -->
+        <p>This website is a collection of educational resources generated from this <a href="https://docs.google.com/spreadsheets/d/1ioAOq2iej7eRkoPy1-2vewv7tafmEKeG5wYBMnvjpws/edit#gid=0">Google Sheet</a>. The collection includes primary and secondary sources, classroom activities, student projects, readings, and online communities related to local heritage.</p><p>This website was created by Eli Pousson and is based on the <a href="https://github.com/jlord/federal-gov" target="_blank">Federal Government 2017 project</a> by Jessica Lord.</i></p>
+        <h4>Select to filter by category</h4>
+        <ul class="categories-list">
+          <li class="item-category source" role="button" tabindex="0">Source</li>
+          <li class="item-category activity" role="button" tabindex="0">Activity</li>
+          <li class="item-category project" role="button" tabindex="0">Project</li>
+          <li class="item-category reading" role="button" tabindex="0">Reading</li>
+          <li class="item-category community" role="button" tabindex="0">Community</li>
+          <li class="item-category all hidden" role="button" tabindex="0">View All</li>
+      </div>
+    </header>
+
+    <div id="acts" class="wrapper">Loading...</div>
+
+    <script id="acts_template" type="text/html">
+      {{#rows}}
+      <div class="item {{featured}}">
+        <div class="item-header">
+          <span class="item-category {{category}}">{{category}}</span>
+        </div>
+        <h2 class="item-title">{{title}}</h2>
+        <p><span class="meta item-type"><i class="fa {{format_icon}}"></i>&nbsp; {{format}}</span></p>
+        <p><a href="{{url}}">Learn more&nbsp;<i class="fa fa-external-link"></i></a></p>
+        <small>
+          <span class="meta item-publisher"><i class="fa fa-flag"></i>&nbsp;Source: <a href="{{source_url}}">{{source}}</a></span><br/>
+          <span class="meta item-publisher"><i class="fa fa-user-circle"></i>&nbsp;Creator: {{creator}}</span><br/>
+          <span class="meta item-publisher"><i class="fa fa-calendar-o"></i>&nbsp;Date: {{date}}</span><br/>
+          <span class="meta item-access"><i class="fa fa-id-card"></i>&nbsp;Access: {{access}}</span><br/>
+        </small>
+        <p>{{description}}</p>
+      </div>
+      {{/rows}}
+    </script>
+
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      var URL = '1ioAOq2iej7eRkoPy1-2vewv7tafmEKeG5wYBMnvjpws'
+      Tabletop.init({ key: URL, callback: showInfo, simpleSheet: true })
+    })
+
+    function showInfo(data) {
+      // TODO Parse article URL to generate source for link
+      // TODO Add filtering and sorting
+      var options = {'data': data.reverse(), 'tableDiv': '#acts'}
+      Sheetsee.makeTable(options)
+    }
+
+    $('li.item-category').click(function(event) {
+      filter(event.target.classList[1])
+    })
+
+    function filter(type) {
+      // If you're switching filters, first reset the applied filter.
+      if (type !== 'all') {
+        filter('all')
+        $('.item-category.all')[0].classList.remove('hidden')
+      } else {
+        $('.item-category.all')[0].classList.add('hidden')
+      }
+
+      var items = acts.querySelectorAll('.item')
+      for (var i = 0; i < items.length; i++) {
+        if (type === 'all') {
+          items[i].classList.remove('hidden')
+        } else {
+          var category = items[i].querySelector('.item-category').textContent.trim();
+          if (category !== type) {
+            items[i].classList.add('hidden')
+          }
+        }
+      }
+    }
+    </script>
+  </body>
+</html>
