@@ -1,5 +1,7 @@
 ---
 title: "HIST 411 (Public History Methods): Explore Baltimore Heritage 101"
+date: 2017-03-02
+permalink: /syllabus/
 ---
 
 ## Introduction
